@@ -9,6 +9,27 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
+    <name>Pisthor Ioc</name>
+    <description>Simple dependency injection container.</description>
+    <url>https://github.com/SilverioMG/PisthorIoc</url>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Silverio Martínez García</name>
+        </developer>
+    </developers>
+    <issueManagement>
+        <system>GitHub Issue Tracker</system>
+        <url>https://github.com/SilverioMG/PisthorIoc/issues</url>
+    </issueManagement>
+
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
