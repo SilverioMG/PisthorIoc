@@ -32,7 +32,7 @@ import java.util.function.Function;
  * Pueden producirse varios errores debido a un mal uso del contenedor, por haber registrado mal alguna dependencia o porque se está intentando
  * resolver de forma incorrecta.
  * Error al intentar resolver una dependencia que no ha sido registrada previamente.
- * Error debido a que se quiere resolver alguna dependencia que ha sido registrada como dependencias cícicla de otra.
+ * Error debido a que se quiere resolver alguna dependencia que ha sido registrada como dependencias cíclica de otra.
  * Error en la conversión de tipos (casting) al intentar resolver o inyectar una dependencia de un tipo concreto en una variable/campo de
  * un tipo incompatible.
  * Estos posibles errores se producen siempre a la hora de resolver una dependencia (se lanza una RuntimeException para cada tipo de error).
