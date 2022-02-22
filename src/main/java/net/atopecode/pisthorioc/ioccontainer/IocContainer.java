@@ -42,15 +42,39 @@ import java.util.function.Function;
  * El funcionamiento de esta clase es 'ThreadSafe'.
  */
 public class IocContainer {
-    public final Logger LOGGER;
+    private Logger logger;
 
     private final Map<String, Object> mapObjects;
     private final Map<String, DependencyFactory> mapFactory;
 
+    public IocContainer(){
+        this(null);
+    }
+
     public IocContainer(Logger logger){
         this.mapObjects = new TreeMap<>(); //Podría ser perfectamente un 'HashMap', no importa el orden de los objetos, pero se utiliza 'TreeMap' para que en el método 'logContent()' se muestren por orden de resolución.
         this.mapFactory = new HashMap<>();
-        this.LOGGER = logger;
+        setLogger(logger);
+    }
+
+    /**
+     * Este método asigna un 'Logger' al contenedor para mostrar mensajes de advertencias o error.
+     * @param logger
+     * Logger que implemente la interfaz slf4j.
+     * @return
+     * El objeto 'IocContainer' para poder hacer programación 'fluentApi'.
+     * @throws IocDependencyException
+     * Si se intenta asignar un 'logger' al 'IocContainer' cuando ya tiene uno asignado.
+     */
+    public synchronized IocContainer setLogger(Logger logger){
+        if(this.logger == null){
+            this.logger = logger;
+        }
+        else{
+            throw new IocDependencyException("The 'IocContainer' already has a 'Logger' assigned.");
+        }
+
+        return this;
     }
 
     /**
@@ -231,14 +255,14 @@ public class IocContainer {
     }
 
     private void logInfo(String message){
-        if(LOGGER != null){
-            LOGGER.info(message);
+        if(logger != null){
+            logger.info(message);
         }
     }
 
     private void logWarn(String message){
-        if(LOGGER != null){
-            LOGGER.warn(message);
+        if(logger != null){
+            logger.warn(message);
         }
     }
 }

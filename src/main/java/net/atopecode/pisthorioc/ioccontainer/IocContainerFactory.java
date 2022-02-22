@@ -1,5 +1,6 @@
 package net.atopecode.pisthorioc.ioccontainer;
 
+import net.atopecode.pisthorioc.exceptions.IocDependencyException;
 import org.slf4j.Logger;
 
 /**
@@ -15,29 +16,24 @@ public class IocContainerFactory {
 
     /**
      * Crea una nueva instancia (nuevo objeto) de un 'IocContainer'.
-     * @param logger
-     * Implementación de logger SLF4J (como LogBack por ejemplo).
-     * Si es 'null', el 'IocContainer' se creará y funcionará correctamente pero no se mostrará ningún mensaje de log.
      * @return
      * Devuelve una nueva instancia (nuevo objeto) de un 'IocContainer'.
      */
-    public static IocContainer newInstance(Logger logger){
-        return new IocContainer(logger);
+    public static IocContainer newInstance(){
+        return new IocContainer();
     }
 
     /**
      * La primera vez que se ejecuta este método se crea una nueva instancia (nuevo objeto) de un 'IocContainer' y
      * las sucesivas veces se devuelve siempre el mismo objeto creado (misma dirección de memoria).
      * Este método es 'ThreadSafe'.
-     * @param logger
-     * Implementación de logger SLF4J (como LogBack por ejemplo).
-     * Si es 'null', el 'IocContainer' se creará y funcionará correctamente, pero no se mostrará ningún mensaje de log.
+     *
      * @return
      * Devuelve siempre la misma instancia (mismo objeto) de un 'IocContainer'.
      */
-    public synchronized static IocContainer singleton(Logger logger){
+    public synchronized static IocContainer singleton(){
         if(iocContainer == null){
-            iocContainer = newInstance(logger);
+            iocContainer = newInstance();
         }
 
         return iocContainer;
