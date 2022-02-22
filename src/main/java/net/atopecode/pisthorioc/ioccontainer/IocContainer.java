@@ -146,18 +146,38 @@ public class IocContainer {
 
     /**
      * Este método resuelve todas las dependencias registradas en el 'iocContainer'.
-     * Se utiliza para evitar que se produzcan errores durante la ejecución del servicio ya que las dependencias se van
-     * inyectando a medida que se resuelven y se pueden producir errores de 'dependicas no registradas', 'dependencias circular' o 'casting'.
-     * Es aconsejable ejecutar este método justo después de resgitrar todas las dependencias para asegurarnos que se regitraron
+     * Se utiliza para evitar que se produzcan errores durante la ejecución del servicio, ya que las dependencias se van
+     * inyectando a medida que se resuelven y se pueden producir errores de 'dependencias no registradas', 'dependencias circular' o 'casting'.
+     * Es aconsejable ejecutar este método justo después de registrar todas las dependencias para asegurarnos que se registraron
+     * correctamente.
+     *
+     * Las depedencias registradas como 'Singleton' quedan guardadas en memoria y así se gana en velocidad cada vez que se
+     * intenten resolver.
+     *
+     * Se muestra la info de las dependencias que se intentan resolver durante el proceso de carga.
+     * Una vez finalizado el proceso de carga debe mostrarse la info de todas las dependencias almacenadas en el contenedor.
+     *      *  Solo se indicarán las dependencias de tipo 'singleton', ya que las de tipo 'prototype' no se almacenan en el contenedor (se crean de nuevo en cada resolución).
+     * @return
+     *  El objeto 'IocContainer' para poder hacer 'fluentApi'.
+     */
+    public IocContainer loadContent() {
+        return loadContent(true, true);
+    }
+
+    /**
+     * Este método resuelve todas las dependencias registradas en el 'iocContainer'.
+     * Se utiliza para evitar que se produzcan errores durante la ejecución del servicio, ya que las dependencias se van
+     * inyectando a medida que se resuelven y se pueden producir errores de 'dependencias no registradas', 'dependencias circular' o 'casting'.
+     * Es aconsejable ejecutar este método justo después de registrar todas las dependencias para asegurarnos que se registraron
      * correctamente.
      *
      * Las depedencias registradas como 'Singleton' quedan guardadas en memoria y así se gana en velocidad cada vez que se
      * intenten resolver.
      * @param verbose
-     *  Indica si se muestra la info de las dependencias que se itentan resolver durante el proceso de carga.
+     *  Indica si se muestra la info de las dependencias que se intentan resolver durante el proceso de carga.
      * @param logContent
      *  Indica si una vez finalizado el proceso de carga debe mostrarse la info de todas las dependencias almacenadas en el contenedor.
-     *  Solo se indicarán las dependencias de tipo 'singleton' ya que las de tipo 'prototype' no se almacenan en el contenedor (se crean de nuevo en cada resolución).
+     *  Solo se indicarán las dependencias de tipo 'singleton', ya que las de tipo 'prototype' no se almacenan en el contenedor (se crean de nuevo en cada resolución).
      * @return
      *  El objeto 'IocContainer' para poder hacer 'fluentApi'.
      */
