@@ -78,6 +78,16 @@ public class IocContainer {
     }
 
     /**
+     * Indica si el contenedor tiene un 'logger' asignado.
+     * @return
+     * 'true' si el contenedor tiene 'logger' asignado.
+     * 'false' si el contenedor no tiene 'logger' asignado.
+     */
+    public boolean hasLogger(){
+        return (logger != null);
+    }
+
+    /**
      * Se registra la creación de un objeto como dependencia y las posibles dependencias que necesita inyectar via constructor
      * para su creación.
      * @param name
