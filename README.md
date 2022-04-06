@@ -1,4 +1,4 @@
-<div style="width:1000px; height:500px;">
+<div style="width:50%; height:50%;">
 ![PisthorIoc](http://www.atopecode.net/content/images/size/w2000/2022/02/pisthor---color---1280x640.png)
 </div>
 
