@@ -1,6 +1,4 @@
-<div style="width:50%; height:50%;">
 ![PisthorIoc](http://www.atopecode.net/content/images/size/w2000/2022/02/pisthor---color---1280x640.png)
-</div>
 
 ![Made with Java](https://img.shields.io/badge/made%20with-java-orange)
 ![Ioc - Depdendency Injection](https://img.shields.io/badge/dependency%20injection-ioc-yellow)
