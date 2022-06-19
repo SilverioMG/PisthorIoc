@@ -2,6 +2,7 @@ package net.atopecode.pisthorioc.dependencyresolver;
 
 import net.atopecode.pisthorioc.dependencyfactory.DependencyFactory;
 import net.atopecode.pisthorioc.exceptions.*;
+import net.atopecode.pisthorioc.ioccontainer.interfaces.IDependency;
 import net.atopecode.pisthorioc.normalizername.NormalizerName;
 import org.apache.commons.lang3.StringUtils;
 
@@ -99,6 +100,7 @@ public class DependencyResolver implements IDependencyResolver {
         //Produce llamadas recursivas al método 'resolve()':
         Object object = factory.getFactory().apply(this);
         if(object == null) throw new IocDependencyNotFoundException("Not found dependency with name '" + name + "'");
+        postConstruct(object);
 
         //Se guarda la dependencia solo si es de tipo 'Singleton', sino la próxima vez que se intente inyectar se creará una nueva instancia del objeto.
         if(factory.isTypeSingleton()) mapObjects.put(name, object);
@@ -146,4 +148,14 @@ public class DependencyResolver implements IDependencyResolver {
         pendingToInject.add(name);
     }
 
+    /**Este método comoprueba si la nueva Dependencia creada/inyectada implementa la interfaz 'IDependency', en cuyo
+     * caso ejecuta su método 'postContruct()'.
+     * @param object
+     */
+    private void postConstruct(Object object){
+        if(object instanceof IDependency){
+            IDependency dependency = (IDependency) object;
+            dependency.postContruct();
+        }
+    }
 }

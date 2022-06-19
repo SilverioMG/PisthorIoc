@@ -4,6 +4,7 @@ import net.atopecode.pisthorioc.dependencyfactory.DependencyFactory;
 import net.atopecode.pisthorioc.dependencyresolver.DependencyResolver;
 import net.atopecode.pisthorioc.dependencyresolver.IDependencyResolver;
 import net.atopecode.pisthorioc.exceptions.IocDependencyException;
+import net.atopecode.pisthorioc.ioccontainer.interfaces.IDependency;
 import net.atopecode.pisthorioc.normalizername.NormalizerName;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Function;
 
@@ -44,16 +46,15 @@ import java.util.function.Function;
 public class IocContainer {
     private Logger logger;
 
-    private final Map<String, Object> mapObjects;
-    private final Map<String, DependencyFactory> mapFactory;
+    private Map<String, Object> mapObjects;
+    private Map<String, DependencyFactory> mapFactory;
 
     public IocContainer(){
         this(null);
     }
 
     public IocContainer(Logger logger){
-        this.mapObjects = new TreeMap<>(); //Podría ser perfectamente un 'HashMap', no importa el orden de los objetos, pero se utiliza 'TreeMap' para que en el método 'logContent()' se muestren por orden de resolución.
-        this.mapFactory = new HashMap<>();
+        clearMaps();
         setLogger(logger);
     }
 
@@ -243,11 +244,11 @@ public class IocContainer {
      * @return
      *  El objeto 'IocContainer' para poder hacer 'fluentApi'.
      */
-    public IocContainer showContent(){
+    public IocContainer showContent() {
         logInfo("");
         logInfo("IocContainer content:");
         logInfo("---------------------");
-        if(mapObjects.size() > 0) {
+        if (mapObjects.size() > 0) {
             mapObjects.entrySet()
                     .forEach((Map.Entry<String, Object> entry) -> {
                         String name = entry.getKey();
@@ -255,8 +256,7 @@ public class IocContainer {
                         String message = MessageFormat.format("For name: \"{0}\" injects object of type \"{1}\"", name, objectName);
                         logInfo(message);
                     });
-        }
-        else{
+        } else {
             String message = MessageFormat.format("There is not registered pistonioc.test.dependencies or all registered pistonioc.test.dependencies are of type {0}.", DependencyFactory.DependencyType.PROTOTYPE);
             logInfo(message);
         }
@@ -274,5 +274,23 @@ public class IocContainer {
         if(logger != null){
             logger.warn(message);
         }
+    }
+
+    public void clear(){
+        for(Map.Entry<String, Object> entry: mapObjects.entrySet()){
+            Object object = entry.getValue();
+            if(object instanceof IDependency){
+                IDependency dependency = (IDependency) object;
+                dependency.preDestory();
+            }
+        }
+
+        clearMaps();
+        logInfo("IocContainer cleared. Removed all dependencies and factories.");
+    }
+
+    private void clearMaps(){
+        mapObjects = new TreeMap<>(); //Podría ser perfectamente un 'HashMap', no importa el orden de los objetos, pero se utiliza 'TreeMap' para que en el método 'logContent()' se muestren por orden de resolución.
+        mapFactory = new HashMap<>();
     }
 }
